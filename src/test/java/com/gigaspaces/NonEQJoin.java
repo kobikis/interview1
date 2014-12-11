@@ -3,6 +3,8 @@ package com.gigaspaces;
 import com.gigaspaces.model.Customer;
 import com.gigaspaces.model.Order;
 import com.j_spaces.core.IJSpace;
+import org.junit.Before;
+import org.junit.Test;
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.GigaSpaceConfigurer;
 import org.openspaces.core.space.UrlSpaceConfigurer;
@@ -16,13 +18,14 @@ import java.util.logging.Logger;
  */
 public class NonEQJoin {
 
-    public static Logger logger = Logger.getLogger("Process");
+    public static Logger logger = Logger.getLogger("NonEQJoin");
     public static final String url = "/./mySpace";
 
     static IJSpace space = null;
     static GigaSpace gigaSpace = null;
 
-    public static void main(String[] args) throws ParseException {
+    @Before
+    public void before() throws Exception {
         space = new UrlSpaceConfigurer(url).space();
         gigaSpace = new GigaSpaceConfigurer(space).gigaSpace();
 
@@ -84,18 +87,15 @@ public class NonEQJoin {
         Customer[] customers = getCustomers();
 
         gigaSpace.writeMultiple(customers);
+    }
 
-
+    @Test
+    public void test(){
 //TODO write the following SQL query eith XAP SQL QUERY - http://docs.gigaspaces.com/xap100net/query-sql.html
 //        SELECT a.ord_num,a.ord_amount,b.cust_name,b.working_area
 //        FROM orders a,customer b
 //        WHERE a.ord_amount
 //        BETWEEN b.opening_amt AND b.opening_amt;
-
-
-
-
-
     }
 
     private static Customer[] getCustomers() {

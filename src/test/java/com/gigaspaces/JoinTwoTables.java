@@ -3,6 +3,8 @@ package com.gigaspaces;
 import com.gigaspaces.model.Company;
 import com.gigaspaces.model.Foods;
 import com.j_spaces.core.IJSpace;
+import org.junit.Before;
+import org.junit.Test;
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.GigaSpaceConfigurer;
 import org.openspaces.core.space.UrlSpaceConfigurer;
@@ -14,13 +16,16 @@ import java.util.logging.Logger;
  */
 public class JoinTwoTables {
 
-    public static Logger logger = Logger.getLogger("Process");
-    public static final String url = "/./mySpace";
 
-    static IJSpace space = null;
-    static GigaSpace gigaSpace = null;
+        public static Logger logger = Logger.getLogger("JoinTwoTables");
+        public static final String url = "/./mySpace";
 
-    public static void main(String[] args) {
+
+        static IJSpace space = null;
+        static GigaSpace gigaSpace = null;
+
+        @Before
+        public void before() throws Exception {
         space = new UrlSpaceConfigurer(url).space();
         gigaSpace = new GigaSpaceConfigurer(space).gigaSpace();
 
@@ -57,6 +62,10 @@ public class JoinTwoTables {
 
         gigaSpace.writeMultiple(companies);
 
+        }
+
+        @Test
+        public void test(){
 //TODO write the following SQL query eith XAP SQL QUERY - http://docs.gigaspaces.com/xap100net/query-sql.html
 
 //        SELECT foods.item_name,foods.item_unit,
@@ -64,11 +73,8 @@ public class JoinTwoTables {
 //        FROM foods ,company
 //        WHERE  foods.company_id =company.company_id
 //        AND company.company_city='London';
+        }
 
-
-
-
-    }
 
         private static Company[] getCompanies() {
                 String[] companyNames = {"Order All", "Jack Hill Ltd", "Akas Foods", "Foodies.", "sip-n-Bite."};

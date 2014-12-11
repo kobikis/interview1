@@ -4,6 +4,8 @@ import com.gigaspaces.model.Student;
 import com.gigaspaces.model.StudentKey;
 import com.gigaspaces.model.StudentReport;
 import com.j_spaces.core.IJSpace;
+import org.junit.Before;
+import org.junit.Test;
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.GigaSpaceConfigurer;
 import org.openspaces.core.space.UrlSpaceConfigurer;
@@ -15,15 +17,16 @@ import java.util.logging.Logger;
  */
 public class JoinTwoTablesCompositePrimaryKey {
 
-    public static Logger logger = Logger.getLogger("Process");
+    public static Logger logger = Logger.getLogger("JoinTwoTablesCompositePrimaryKey");
     public static final String url = "/./mySpace";
 
     static IJSpace space = null;
     static GigaSpace gigaSpace = null;
 
-    public static void main(String[] args) {
-        space = new UrlSpaceConfigurer(url).space();
-        gigaSpace = new GigaSpaceConfigurer(space).gigaSpace();
+    @Before
+    public void before() throws Exception {
+            space = new UrlSpaceConfigurer(url).space();
+            gigaSpace = new GigaSpaceConfigurer(space).gigaSpace();
 
 //        +--------------------------------+---------------------------+-------+---------+--------+
 //        | NAME                           | TITLE                     | CLASS | SECTION | ROLLID |
@@ -32,9 +35,9 @@ public class JoinTwoTablesCompositePrimaryKey {
 //        | Robert                         | Paul                      | VI    | A       |      2 |
 //        | Danny                          | Moris                     | V     | B       |     15 |
 //        +--------------------------------+---------------------------+-------+---------+--------+
-        Student[] students = getStudents();
+            Student[] students = getStudents();
 
-        gigaSpace.writeMultiple(students);
+            gigaSpace.writeMultiple(students);
 
 //        +-------+---------+--------+-------+----------+----------------+
 //        | CLASS | SECTION | ROLLID | GRADE | SEMISTER | CLASS_ATTENDED |
@@ -46,10 +49,13 @@ public class JoinTwoTablesCompositePrimaryKey {
 //        | V     | A       |     15 | AA    | 2Nd      |             85 |
 //        +-------+---------+--------+-------+----------+----------------+
 
-        StudentReport[] studentReports = getStudentReports();
+            StudentReport[] studentReports = getStudentReports();
 
-        gigaSpace.writeMultiple(studentReports);
+            gigaSpace.writeMultiple(studentReports);
+    }
 
+        @Test
+        public void test(){
 //TODO write the following SQL query eith XAP SQL QUERY - http://docs.gigaspaces.com/xap100net/query-sql.html
 
 //        SELECT a.name,a.title,a.class,a.section,
