@@ -3,7 +3,7 @@ Overview
 
 SE exam
 
-* 3 tasks related to XAP SQL Query
+* 2 questions related to XAP SQL Query
 
 Prerequisites
 =============
